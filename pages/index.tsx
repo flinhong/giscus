@@ -111,14 +111,15 @@ export default function Home({
         <div className="w-full my-8 giscus" />
         <Script
           src="/client.js"
-          data-repo="giscus/giscus"
-          data-repo-id="MDEwOlJlcG9zaXRvcnkzNTE5NTgwNTM="
-          data-category-id="MDE4OkRpc2N1c3Npb25DYXRlZ29yeTMyNzk2NTc1"
+          data-repo="flinhong/chaos"
+          data-repo-id="R_kgDOGK_u5g"
           data-mapping="specific"
-          data-term="Welcome to giscus!"
-          data-theme="light"
+          data-term="Welcome to inDev. Discuss!"
           data-reactions-enabled="1"
-          data-emit-metadata="0"
+          data-emit-metadata="1"
+          data-theme="light"
+          crossorigin="anonymous"
+          async
         />
         <a
           className="block mx-auto mb-6 w-max"
