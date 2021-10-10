@@ -118,12 +118,12 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
               {' '}
               {t('poweredBy')}{' '}
               <a
-                href="https://giscus.app"
+                href="https://discuss.frankindev.com"
                 target="_blank"
                 rel="noreferrer noopener nofollow"
                 className="Link--secondary"
               >
-                giscus
+                giscus.app
               </a>
             </em>
           ) : null}
