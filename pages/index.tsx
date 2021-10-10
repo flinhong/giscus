@@ -118,7 +118,6 @@ export default function Home({
           data-reactions-enabled="1"
           data-emit-metadata="1"
           data-theme="light"
-          crossorigin="anonymous"
           async
         />
         <a
