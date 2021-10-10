@@ -1,5 +1,16 @@
+@import url('https://cdn.frankindev.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;1,300&family=Noto+Serif+SC&family=Zilla+Slab:ital@0;1&display=swap');
+
+body {
+  font-family: 'Zilla Slab', 'Noto Serif SC', 'STSong', serif;
+}
+
 body * {
   border-color: var(--color-border-default, var(--color-border-primary));
+  font-family: 'Zilla Slab', 'Noto Serif SC', 'STSong', serif;
+}
+
+pre, code, kbd {
+  font-family: 'IBM Plex Mono', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'Noto Serif SC', 'STSong', monospace;
 }
 
 a {
