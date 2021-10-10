@@ -113,6 +113,8 @@ export default function Home({
           src="/client.js"
           data-repo="flinhong/chaos"
           data-repo-id="R_kgDOGK_u5g"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOGK_u5s4B_UhW"
           data-mapping="specific"
           data-term="Welcome to inDev. Discuss!"
           data-reactions-enabled="1"
