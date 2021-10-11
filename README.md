@@ -46,6 +46,7 @@ If you've previously used other systems that utilize GitHub Issues (e.g. [uttera
 
 ## sites using giscus
 
+- [frankindev.com](https://frankindev.com)
 - [laymonage.com][laymonage-website]
 - [os.phil-opp.com][os-phil-opp]
 - [Stats and R][statsandr]
