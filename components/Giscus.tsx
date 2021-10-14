@@ -123,7 +123,7 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
                 rel="noreferrer noopener nofollow"
                 className="Link--secondary"
               >
-                giscus.app
+                giscus
               </a>
             </em>
           ) : null}
