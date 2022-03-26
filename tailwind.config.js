@@ -17,13 +17,15 @@ module.exports = {
         sans: [
           '-apple-system',
           'BlinkMacSystemFont',
-          '"Segoe UI"',
+          'Segoe UI',
           'Helvetica',
           'Arial',
+          'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Serif SC',
           'sans-serif',
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
+          'Apple Color Emoji',
+          'Segoe UI Emoji'
         ],
+        mono: [ 'IBM Plex Mono', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Serif SC', 'STSong' ]
       },
     },
   },
