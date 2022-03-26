@@ -2,14 +2,13 @@ import { ArrowUpIcon, KebabHorizontalIcon } from '@primer/octicons-react';
 import { ReactElement, ReactNode, useCallback, useContext, useState } from 'react';
 import { handleCommentClick, processCommentBody } from '../lib/adapter';
 import { IComment, IReply } from '../lib/types/adapter';
-import { Reactions, updateCommentReaction } from '../lib/reactions';
-import { formatDateDistance } from '../lib/utils';
+import { Reaction, updateCommentReaction } from '../lib/reactions';
 import { toggleUpvote } from '../services/github/toggleUpvote';
 import CommentBox from './CommentBox';
 import ReactButtons from './ReactButtons';
 import Reply from './Reply';
 import { AuthContext } from '../lib/context';
-import { useDateFormatter, useGiscusTranslation } from '../lib/i18n';
+import { useDateFormatter, useGiscusTranslation, useRelativeTimeFormatter } from '../lib/i18n';
 
 interface ICommentProps {
   children?: ReactNode;
@@ -28,6 +27,7 @@ export default function Comment({
 }: ICommentProps) {
   const { t } = useGiscusTranslation();
   const formatDate = useDateFormatter();
+  const formatDateDistance = useRelativeTimeFormatter();
   const [backPage, setBackPage] = useState(0);
 
   const replies = comment.replies.slice(-5 - backPage * 50);
@@ -39,7 +39,7 @@ export default function Comment({
   const { token } = useContext(AuthContext);
 
   const updateReactions = useCallback(
-    (reaction: Reactions, promise: Promise<unknown>) =>
+    (reaction: Reaction, promise: Promise<unknown>) =>
       onCommentUpdate(updateCommentReaction(comment, reaction), promise),
     [comment, onCommentUpdate],
   );
@@ -92,13 +92,13 @@ export default function Comment({
                   height="30"
                   alt={`@${comment.author.login}`}
                 />
-                <span className="font-semibold Link--primary">{comment.author.login}</span>
+                <span className="font-semibold link-primary">{comment.author.login}</span>
               </a>
               <a
                 rel="nofollow noopener noreferrer"
                 target="_blank"
                 href={comment.url}
-                className="ml-2 Link--secondary"
+                className="ml-2 link-secondary"
               >
                 <time
                   className="whitespace-nowrap"
@@ -108,14 +108,14 @@ export default function Comment({
                   {formatDateDistance(comment.createdAt)}
                 </time>
               </a>
-              {comment.authorAssociation ? (
+              {comment.authorAssociation !== 'NONE' ? (
                 <div className="hidden ml-2 text-xs sm:inline-flex">
                   <span
                     className={`px-1 ml-1 capitalize border rounded-md ${
                       comment.viewerDidAuthor ? 'color-box-border-info' : 'color-label-border'
                     }`}
                   >
-                    {comment.authorAssociation}
+                    {t(comment.authorAssociation)}
                   </span>
                 </div>
               ) : null}
@@ -141,13 +141,15 @@ export default function Comment({
             hidden ? undefined : { __html: processCommentBody(comment.bodyHTML) }
           }
         >
-          <em className="color-text-secondary">
-            {comment.deletedAt ? t('thisCommentWasDeleted') : t('thisCommentWasMinimized')}
-          </em>
+          {hidden ? (
+            <em className="color-text-secondary">
+              {comment.deletedAt ? t('thisCommentWasDeleted') : t('thisCommentWasMinimized')}
+            </em>
+          ) : null}
         </div>
         {children}
         {!comment.isMinimized && onCommentUpdate ? (
-          <div className="flex content-center justify-between">
+          <div className="gsc-comment-footer">
             <div className="gsc-comment-reactions">
               <button
                 type="button"
@@ -156,7 +158,7 @@ export default function Comment({
                 }`}
                 onClick={upvote}
                 disabled={!token || !comment.viewerCanUpvote}
-                aria-label="Upvote"
+                aria-label={t('upvote')}
               >
                 <ArrowUpIcon />
 
@@ -172,6 +174,7 @@ export default function Comment({
                   reactionGroups={comment.reactions}
                   subjectId={comment.id}
                   onReact={updateReactions}
+                  popoverPosition="top"
                 />
               ) : null}
             </div>

@@ -14,18 +14,25 @@ import { sendData } from '../lib/messages';
 import { ISetConfigMessage } from '../lib/types/giscus';
 import { getThemeUrl } from '../lib/utils';
 import { GISCUS_APP_HOST } from '../services/config';
-import { InferGetStaticPropsType } from 'next';
+import { GetStaticPropsContext, InferGetStaticPropsType } from 'next';
+import Router from 'next/router';
+import getT from 'next-translate/getT';
+import { AvailableLanguage } from '../lib/i18n';
 
-export async function getStaticProps() {
-  const path = join(process.cwd(), 'README.md');
+export async function getStaticProps({ locale }: GetStaticPropsContext) {
+  const localeSuffix = locale === 'en' ? '' : `.${locale}`;
+  const t = await getT(locale, 'config');
+
+  const path = join(process.cwd(), `README${localeSuffix}.md`);
   const readme = readFileSync(path, 'utf-8');
   const contents = readme.split('<!-- configuration -->');
   const [afterConfig] = contents[1].split('<!-- end -->');
-  contents[1] = `${afterConfig}\n## try it out 👇👇👇\n`;
+
+  contents[1] = `${afterConfig}\n## ${t('tryItOut')} 👇👇👇\n`;
 
   const token = await getAppAccessToken('giscus/giscus').catch(() => '');
   const [contentBefore, contentAfter] = await Promise.all(
-    contents.map(async (section) => await renderMarkdown(section, token, 'giscus/giscus')),
+    contents.map((section) => renderMarkdown(section, token, 'giscus/giscus')),
   );
 
   const comment: IComment = {
@@ -34,7 +41,7 @@ export async function getStaticProps() {
       login: 'giscus',
       url: 'https://github.com/apps/giscus',
     },
-    authorAssociation: 'app',
+    authorAssociation: 'APP',
     bodyHTML: contentBefore,
     createdAt: '2021-05-15T13:21:14Z',
     deletedAt: null,
@@ -58,6 +65,7 @@ export async function getStaticProps() {
     props: {
       comment,
       contentAfter,
+      locale: locale as AvailableLanguage,
     },
   };
 }
@@ -68,6 +76,7 @@ type DirectConfigHandler = ComponentProps<typeof Configuration>['onDirectConfigC
 export default function Home({
   comment,
   contentAfter,
+  locale,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { theme, setTheme } = useContext(ThemeContext);
   const [directConfig, setDirectConfig] = useState<DirectConfig>({
@@ -75,6 +84,8 @@ export default function Home({
     themeUrl: `${GISCUS_APP_HOST}/themes/custom_example.css`,
     reactionsEnabled: true,
     emitMetadata: false,
+    lang: locale,
+    inputPosition: 'bottom',
   });
   const themeUrl = useDebounce(directConfig.themeUrl);
   const configTheme = getThemeUrl(directConfig.theme, themeUrl);
@@ -92,10 +103,26 @@ export default function Home({
         theme: configTheme,
         reactionsEnabled: directConfig.reactionsEnabled,
         emitMetadata: directConfig.emitMetadata,
+        inputPosition: directConfig.inputPosition,
+        lang: directConfig.lang,
       },
     };
     sendData(data, location.origin);
-  }, [directConfig.emitMetadata, directConfig.reactionsEnabled, configTheme, themeUrl]);
+  }, [
+    directConfig.emitMetadata,
+    directConfig.reactionsEnabled,
+    directConfig.inputPosition,
+    directConfig.lang,
+    configTheme,
+    themeUrl,
+  ]);
+
+  useEffect(() => {
+    Router.replace(Router.asPath, Router.pathname, {
+      locale: directConfig.lang,
+      scroll: false,
+    });
+  }, [directConfig.lang]);
 
   return (
     <main className="w-full min-h-screen gsc-homepage-bg" data-theme={theme}>
@@ -108,7 +135,7 @@ export default function Home({
           <div className="p-4 pt-0 markdown" dangerouslySetInnerHTML={{ __html: contentAfter }} />
         </Comment>
 
-        <div className="w-full my-8 giscus" />
+        <div id="comments" className="w-full my-8 giscus" />
         <Script
           src="/client.js"
           data-repo="flinhong/chaos"
@@ -118,9 +145,9 @@ export default function Home({
           data-mapping="specific"
           data-term="Welcome to inDev. Discuss!"
           data-reactions-enabled="1"
-          data-emit-metadata="1"
-          data-theme="light"
-          async
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-lang={locale}
         />
         <a
           className="block mx-auto mb-6 w-max"

@@ -1,12 +1,12 @@
-import differenceInMonths from 'date-fns/differenceInMonths';
-import differenceInYears from 'date-fns/differenceInYears';
-import format from 'date-fns/format';
-import formatDistanceStrict from 'date-fns/formatDistanceStrict';
-import { Theme } from './variables';
+import { AvailableTheme, availableThemes, Theme } from './variables';
+
+function isAvailableTheme(theme: Theme): theme is AvailableTheme {
+  return availableThemes.includes(theme as AvailableTheme);
+}
 
 export function resolveTheme(theme: Theme): Theme {
   if (!theme) return 'light';
-  if (theme in Theme) return theme as Theme;
+  if (isAvailableTheme(theme)) return theme;
   return 'custom';
 }
 
@@ -16,25 +16,33 @@ export function getThemeUrl(resolvedTheme: Theme, theme: Theme): Theme {
 
 export function getOriginHost(origin: string) {
   try {
-    return new URL(origin).origin;
+    const url = new URL(origin);
+    url.searchParams.delete('giscus');
+    return { origin: url.toString(), originHost: url.origin };
   } catch (err) {
-    return '';
+    return { origin: '', originHost: '' };
   }
 }
 
-export function formatDateDistance(dt: string) {
-  const inputDate = new Date(dt);
-  const now = new Date();
-
-  if (differenceInMonths(now, inputDate) >= 1) {
-    if (differenceInYears(now, inputDate) >= 1) {
-      return format(inputDate, 'LLL d, y');
-    }
-
-    return format(inputDate, 'LLL d');
+export function cleanAnchor(origin: string) {
+  // Make sure the anchor is not followed by / as it means the website probably
+  // is an SPA that uses anchor-based routing.
+  let length = origin.length;
+  const split = origin.split(/#(?!\/)/);
+  if (split.length > 1) {
+    length -= split.pop().length + 1;
   }
+  return origin.substring(0, length);
+}
 
-  return formatDistanceStrict(inputDate, now, { addSuffix: true });
+export function cleanSessionParam(url: string) {
+  try {
+    const newUrl = new URL(url);
+    newUrl.searchParams.delete('giscus');
+    return newUrl.toString();
+  } catch (err) {
+    return url;
+  }
 }
 
 export function isEmpty(v: unknown) {
@@ -51,7 +59,8 @@ export function parseRepoWithOwner(repoWithOwner: string) {
 }
 
 export function resizeTextArea(textarea: HTMLTextAreaElement) {
+  const maxHeight = 270;
   textarea.style.height = `0px`;
-  const height = textarea.scrollHeight <= 772 ? textarea.scrollHeight : 772;
+  const height = textarea.scrollHeight <= maxHeight ? textarea.scrollHeight : maxHeight;
   textarea.style.height = `${height}px`;
 }

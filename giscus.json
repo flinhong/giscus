@@ -6,5 +6,6 @@
   "originsRegex": [
     "https://giscus-([A-z0-9]|-)*\\.vercel\\.app",
     "http://localhost:[0-9]+"
-  ]
+  ],
+  "defaultCommentOrder": "oldest"
 }

@@ -9,21 +9,20 @@ on:
       - main
 
 jobs:
-  Lint:
+  lint_build:
+    name: Lint and Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/checkout@v3
 
       - uses: actions/cache@v2
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
 
       - uses: actions/cache@v2
         with:
@@ -32,13 +31,15 @@ jobs:
           restore-keys: |
             eslint
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn
 
-      - name: Run TypeScript compiler
-        run: yarn tscheck
-
       - name: Run ESLint
         run: yarn lint
+
+      - name: Build project
+        run: yarn build

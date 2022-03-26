@@ -1,13 +1,6 @@
 import { MouseEvent as ReactMouseEvent } from 'react';
 import { IComment, IGiscussion, IReactionGroups, IReply } from './types/adapter';
-import {
-  GComment,
-  GCommentAuthorAssociation,
-  GReactionGroup,
-  GReply,
-  GRepositoryDiscussion,
-  GUser,
-} from './types/github';
+import { GComment, GReactionGroup, GReply, GRepositoryDiscussion, GUser } from './types/github';
 import { clipboardCopy } from './utils';
 
 const COPY_BUTTON_HTML = `
@@ -22,6 +15,14 @@ const COPY_BUTTON_HTML = `
   </button>
 </div>`;
 
+// GitHub uses the @ghost user to replace deleted users on the website,
+// but returns `null` in the API.
+const GhostUser: GUser = {
+  avatarUrl: 'https://avatars.githubusercontent.com/u/10137?s=64&v=4',
+  login: 'ghost',
+  url: 'https://github.com/ghost',
+};
+
 export function adaptReactionGroups(reactionGroups: GReactionGroup[]): IReactionGroups {
   return reactionGroups.reduce((acc, group) => {
     acc[group.content] = {
@@ -32,33 +33,29 @@ export function adaptReactionGroups(reactionGroups: GReactionGroup[]): IReaction
   }, {}) as IReactionGroups;
 }
 
-export function adaptAuthorAssociation(association: GCommentAuthorAssociation) {
-  return association === 'NONE' ? '' : association.toLowerCase().replace('_', ' ');
-}
-
 export function adaptReply(reply: GReply): IReply {
   const {
     reactionGroups,
     replyTo: { id: replyToId },
-    authorAssociation: association,
+    author: _author,
     ...rest
   } = reply;
 
-  const authorAssociation = adaptAuthorAssociation(association);
   const reactions = adaptReactionGroups(reactionGroups);
+  const author = _author || GhostUser;
 
-  return { ...rest, authorAssociation, reactions, replyToId };
+  return { ...rest, author, reactions, replyToId };
 }
 
 export function adaptComment(comment: GComment): IComment {
-  const { replies: repliesData, reactionGroups, authorAssociation: association, ...rest } = comment;
+  const { replies: repliesData, reactionGroups, author: _author, ...rest } = comment;
   const { totalCount: replyCount, nodes: replyNodes } = repliesData;
 
-  const authorAssociation = adaptAuthorAssociation(association);
   const reactions = adaptReactionGroups(reactionGroups);
   const replies = replyNodes.map(adaptReply);
+  const author = _author || GhostUser;
 
-  return { ...rest, authorAssociation, replyCount, reactions, replies };
+  return { ...rest, author, replyCount, reactions, replies };
 }
 
 export function adaptDiscussion({
@@ -155,9 +152,15 @@ export function processCommentBody(bodyHTML: string) {
     const currentLink = window.location.href;
 
     if (a.href.startsWith(`${currentLink}#`)) {
-      const parentLocation = window.parent.location;
-      const parentLink = parentLocation.href.replace(parentLocation.hash, '');
-      a.href = `${parentLink}${a.href.substr(currentLink.length)}`;
+      let parentLink: URL;
+      try {
+        parentLink = new URL(document.referrer);
+      } catch {
+        return;
+      }
+
+      parentLink.hash = '';
+      a.href = `${parentLink.href}${a.href.substring(currentLink.length)}`;
       return;
     }
 

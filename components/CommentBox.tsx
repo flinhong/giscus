@@ -1,5 +1,5 @@
-import { MarkdownIcon } from '@primer/octicons-react';
-import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
+import { MarkdownIcon, MarkGithubIcon, TypographyIcon } from '@primer/octicons-react';
+import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { adaptComment, adaptReply, handleCommentClick, processCommentBody } from '../lib/adapter';
 import { AuthContext } from '../lib/context';
 import { useGiscusTranslation } from '../lib/i18n';
@@ -34,7 +34,10 @@ export default function CommentBox({
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
+  const [isFixedWidth, setIsFixedWidth] = useState(false);
+  const [lastHeight, setLastHeight] = useState('');
   const { token, origin, getLoginUrl } = useContext(AuthContext);
+  const textarea = useRef<HTMLTextAreaElement>(null);
   const loginUrl = getLoginUrl(origin);
   const isReply = !!replyToId;
 
@@ -60,7 +63,7 @@ export default function CommentBox({
     setIsReplyOpen(false);
   }, []);
 
-  const handleClick = useCallback(async () => {
+  const handleSubmit = useCallback(async () => {
     if (isSubmitting || (!discussionId && !onDiscussionCreateRequest)) return;
     setIsSubmitting(true);
 
@@ -99,26 +102,32 @@ export default function CommentBox({
     setIsReplyOpen(true);
   };
 
-  const handleTextAreaChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(event.target.value);
-    const elem = event.target as HTMLTextAreaElement;
-    resizeTextArea(elem);
-  }, []);
-
-  const handleTextAreaRef = useCallback(
-    (textarea: HTMLTextAreaElement) => {
-      if (!textarea) return;
-      resizeTextArea(textarea);
-      if (isReply) setTimeout(() => textarea.focus());
+  const handleTextAreaChange = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
+      setInput(event.target.value);
+      // Only resize if it hasn't been resized manually.
+      if (!lastHeight || lastHeight === textarea.current.style.height) {
+        resizeTextArea(textarea.current);
+        setLastHeight(textarea.current.style.height);
+      }
     },
-    [isReply],
+    [lastHeight],
   );
 
+  useEffect(() => {
+    if (!textarea.current) return;
+    if (isReplyOpen) textarea.current.focus();
+  }, [isReplyOpen]);
+
   return !isReply || isReplyOpen ? (
-    <div
+    <form
       className={`color-bg-primary color-border-primary gsc-comment-box${
-        replyToId ? '' : ' border rounded'
+        isReply ? ' gsc-comment-box-is-reply' : ''
       }`}
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleSubmit();
+      }}
     >
       <div className="color-bg-tertiary color-border-primary gsc-comment-box-tabs">
         <div className="mx-2 mb-[-1px] mt-2">
@@ -129,6 +138,7 @@ export default function CommentBox({
                 : 'color-text-secondary border-transparent'
             }`}
             onClick={() => setIsPreview(false)}
+            type="button"
           >
             {t('write')}
           </button>
@@ -139,10 +149,29 @@ export default function CommentBox({
                 : 'color-text-secondary border-transparent'
             }`}
             onClick={() => setIsPreview(true)}
+            type="button"
+            tabIndex={-1}
           >
             {t('preview')}
           </button>
         </div>
+
+        {!isPreview ? (
+          <div className="gsc-comment-box-md-toolbar">
+            <button
+              className="gsc-toolbar-item"
+              type="button"
+              title={isFixedWidth ? t('disableFixedWidth') : t('enableFixedWidth')}
+              onClick={() => {
+                setIsFixedWidth(!isFixedWidth);
+                textarea.current.focus();
+              }}
+              tabIndex={-1}
+            >
+              <TypographyIcon />
+            </button>
+          </div>
+        ) : null}
       </div>
       <div className="gsc-comment-box-main">
         {isPreview ? (
@@ -157,19 +186,23 @@ export default function CommentBox({
           </div>
         ) : (
           <textarea
-            className="form-control input-contrast gsc-comment-box-textarea"
+            className={`form-control input-contrast gsc-comment-box-textarea ${
+              isFixedWidth ? 'gsc-is-fixed-width' : ''
+            }`}
             placeholder={token ? t('writeAComment') : t('signInToComment')}
             onChange={handleTextAreaChange}
             value={input}
             disabled={!token || isSubmitting}
-            ref={handleTextAreaRef}
-            onKeyDown={(event) => event.ctrlKey && event.key === 'Enter' && handleClick()}
+            ref={textarea}
+            onKeyDown={(event) =>
+              (event.ctrlKey || event.metaKey) && event.key === 'Enter' && handleSubmit()
+            }
           ></textarea>
         )}
       </div>
       <div className="gsc-comment-box-bottom">
         <a
-          className="Link--secondary gsc-comment-box-markdown-hint"
+          className="link-secondary gsc-comment-box-markdown-hint"
           rel="nofollow noopener noreferrer"
           target="_blank"
           href="https://guides.github.com/features/mastering-markdown/"
@@ -180,45 +213,33 @@ export default function CommentBox({
         <div className="gsc-comment-box-buttons">
           {isReply ? (
             <button
-              className="px-4 py-[5px] ml-1 border rounded-md btn"
+              className="ml-1 border rounded-md btn"
               onClick={() => setIsReplyOpen(false)}
+              type="button"
             >
               {t('cancel')}
             </button>
           ) : null}
           {token ? (
             <button
-              className="px-4 py-[5px] ml-1 border rounded-md items-center btn btn-primary"
-              onClick={handleClick}
+              className="ml-1 border rounded-md items-center btn btn-primary"
+              type="submit"
               disabled={(token && !input.trim()) || isSubmitting}
             >
               {isReply ? t('reply') : t('comment')}
             </button>
           ) : (
             <a
-              className="px-4 py-[5px] ml-1 border hover:no-underline rounded-md inline-flex items-center btn btn-primary"
+              className="ml-1 border hover:no-underline rounded-md inline-flex items-center btn btn-primary"
               target="_top"
               href={loginUrl}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 11.493 11.209"
-                className="mr-2"
-              >
-                <path
-                  fill="#fff"
-                  fillRule="evenodd"
-                  d="M5.746 0A5.747 5.747 0 003.93 11.2c.287.052.392-.125.392-.278 0-.136-.005-.497-.008-.977-1.598.347-1.935-.77-1.935-.77-.262-.664-.639-.841-.639-.841-.521-.356.04-.35.04-.35.577.041.88.593.88.593.513.878 1.345.625 1.673.477.052-.37.2-.624.364-.768-1.276-.145-2.617-.638-2.617-2.84 0-.627.224-1.14.591-1.542-.059-.145-.256-.73.057-1.52 0 0 .482-.155 1.58.589.458-.128.95-.192 1.438-.194.489.002.98.066 1.44.194 1.096-.744 1.578-.59 1.578-.59.313.791.116 1.376.057 1.521.369.402.59.915.59 1.542 0 2.208-1.343 2.694-2.623 2.836.206.177.39.528.39 1.064 0 .768-.007 1.388-.007 1.576 0 .154.104.333.395.277A5.749 5.749 0 005.746 0"
-                />
-              </svg>{' '}
-              {t('signInWithGitHub')}
+              <MarkGithubIcon className="mr-2" fill="currentColor" /> {t('signInWithGitHub')}
             </a>
           )}
         </div>
       </div>
-    </div>
+    </form>
   ) : (
     <div className="color-bg-tertiary gsc-reply-box">
       {viewer ? (
@@ -240,6 +261,7 @@ export default function CommentBox({
       <button
         className="w-full px-2 py-1 ml-2 text-left border rounded cursor-text form-control color-text-secondary color-border-primary"
         onClick={handleReplyOpen}
+        type="button"
       >
         {t('writeAReply')}
       </button>

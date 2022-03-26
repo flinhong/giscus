@@ -1,4 +1,8 @@
-# contributing
+# Contributing
+
+- [Setup](#setup)
+- [Creating new themes](#creating-new-themes)
+- [Adding localizations](#adding-localizations)
 
 Thanks for considering to contribute!
 
@@ -8,23 +12,35 @@ giscus works, you'll need to create a GitHub App in order to get it
 running on your machine. Follow the [self-hosting guide][self-hosting] to get
 it running.
 
-## setup
+## Setup
 
-This project is built with [Next.js][next.js]. To get started:
+To contribute to giscus, follow these steps:
 
-1. `yarn`: install dependencies
-2. `yarn dev`: compile and hot-reload for development
-3. `yarn build`: compile and minify for production
-4. `yarn lint`: lint and fix files
-5. `yarn start`: serve the compiled build in production mode
+1. [Fork][fork] the repository to your GitHub account.
+2. Clone the repository to your device (or use something like Codespaces).
+3. Create a new branch in the repository.
+4. Make your modifications.
+5. Commit your modifications and push the branch.
+6. [Create a PR][pr] from the branch in your fork to giscus' `main` branch.
 
-## creating new themes
+This project is built with [Next.js][next.js] and `yarn` as the package manager.
+Here are some commands that you can use:
+
+- `yarn`: install dependencies
+- `yarn dev`: compile and hot-reload for development
+- `yarn build`: compile and minify for production
+- `yarn lint`: lint and fix files
+- `yarn start`: serve the compiled build in production mode
+
+## Creating new themes
 
 If you want to submit your custom theme to giscus, create a new file in
 [`styles/themes`][themes-dir]. The file name (without `.css`) will be the
 theme's key. You can use the other theme files as reference (see
 [`custom_example.css`][example]). Once you've added the theme file, add the key
-and name to `Theme` in [`lib/variables.ts`][variables] to register it.
+and name to `Theme` in [`lib/variables.ts`][variables] to register it. Please
+also update the `config.json` in each localization in the [`locales`][locales]
+directory to include a `theme=your_theme_key` key.
 
 If you want to customize the syntax themes, you can change the CSS variables
 that start with the `--color-prettylights-syntax-` prefix. See the
@@ -46,13 +62,42 @@ so by using a [custom theme URL][custom-theme-url]. Note that you cannot
 create a nice theme, I'd appreciate it if you create a PR instead so others can
 use it easily.
 
+## Adding localizations
+
+If your language is not yet supported by giscus, please contribute a
+localization! Follow these steps to add a new localization:
+
+1. Copy one of the directories in [locales][locales] and rename the new
+   directory into your language's [code][language-codes].
+2. Open `common.json` and `config.json` inside the directory.
+3. Start translating the strings. Make sure to follow your language's
+   [plural rules][plural-rules] for translation keys with an object as the value
+   (e.g. those that require `{{ count }}`).
+4. Copy one of the README files and name it `README.[code].md`, e.g.
+   `README.id.md` and translate the content. Add your language to the bottom of
+   the new README and all the existing READMEs.
+5. Edit [`i18n.tsx`][i18n-tsx] and update the following variables:
+   - `availableLanguages`: include your language code and name.
+   - `dateFormatters`, `shortDateFormatters`, `shortDateYearFormatters`, and
+     `relativeTimeFormatters`: include new objects with your language code,
+     following the existing languages.
+6. Edit [`i18n.json`][i18n-json] and include your language.
+7. In all of the aforementioned files, make sure that the language list is
+   sorted by the language code.
+8. [Create a PR][pr] with your localization updates.
+
 [self-hosting]: SELF-HOSTING.md
+[fork]: https://github.com/giscus/giscus/fork
+[pr]: https://github.com/giscus/giscus/compare
 [next.js]: https://github.com/vercel/next.js
 [themes-dir]: styles/themes
 [example]: styles/themes/custom_example.css
-[syntax-dark]: https://github.com/primer/github-syntax-dark
-[syntax-light]: https://github.com/primer/github-syntax-light
+[variables]: lib/variables.ts
 [preferred-color-scheme]: styles/themes/preferred_color_scheme.css
 [gsc-classes]: https://github.com/giscus/giscus/search?l=TSX&q=gsc
 [custom-theme-url]: https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md#data-theme
-[variables]: lib/variables.ts
+[locales]: locales/
+[language-codes]: https://unicode-org.github.io/cldr-staging/charts/latest/supplemental/languages_and_scripts.html
+[plural-rules]: https://unicode-org.github.io/cldr-staging/charts/latest/supplemental/language_plural_rules.html
+[i18n-tsx]: lib/i18n.tsx
+[i18n-json]: i18n.json

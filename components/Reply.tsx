@@ -1,10 +1,9 @@
 import ReactButtons from './ReactButtons';
 import { IReply } from '../lib/types/adapter';
 import { useCallback } from 'react';
-import { Reactions, updateCommentReaction } from '../lib/reactions';
-import { formatDateDistance } from '../lib/utils';
+import { Reaction, updateCommentReaction } from '../lib/reactions';
 import { handleCommentClick, processCommentBody } from '../lib/adapter';
-import { useDateFormatter, useGiscusTranslation } from '../lib/i18n';
+import { useDateFormatter, useGiscusTranslation, useRelativeTimeFormatter } from '../lib/i18n';
 
 interface IReplyProps {
   reply: IReply;
@@ -14,9 +13,10 @@ interface IReplyProps {
 export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
   const { t } = useGiscusTranslation();
   const formatDate = useDateFormatter();
+  const formatDateDistance = useRelativeTimeFormatter();
 
   const updateReactions = useCallback(
-    (content: Reactions, promise: Promise<unknown>) =>
+    (content: Reaction, promise: Promise<unknown>) =>
       onReplyUpdate(updateCommentReaction(reply, content), promise),
     [reply, onReplyUpdate],
   );
@@ -53,13 +53,13 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
                   href={reply.author.url}
                   className="flex items-center"
                 >
-                  <span className="font-semibold Link--primary">{reply.author.login}</span>
+                  <span className="font-semibold link-primary">{reply.author.login}</span>
                 </a>
                 <a
                   rel="nofollow noopener noreferrer"
                   target="_blank"
                   href={reply.url}
-                  className="ml-2 Link--secondary"
+                  className="ml-2 link-secondary"
                 >
                   <time
                     className="whitespace-nowrap"
@@ -69,14 +69,14 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
                     {formatDateDistance(reply.createdAt)}
                   </time>
                 </a>
-                {reply.authorAssociation ? (
+                {reply.authorAssociation !== 'NONE' ? (
                   <div className="hidden ml-2 text-xs sm:inline-flex">
                     <span
                       className={`px-1 ml-1 capitalize border rounded-md ${
                         reply.viewerDidAuthor ? 'color-box-border-info' : 'color-label-border'
                       }`}
                     >
-                      {reply.authorAssociation}
+                      {t(reply.authorAssociation)}
                     </span>
                   </div>
                 ) : null}
@@ -106,9 +106,11 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
               hidden ? undefined : { __html: processCommentBody(reply.bodyHTML) }
             }
           >
-            <em className="color-text-secondary">
-              {reply.deletedAt ? t('thisCommentWasDeleted') : t('thisCommentWasHidden')}
-            </em>
+            {hidden ? (
+              <em className="color-text-secondary">
+                {reply.deletedAt ? t('thisCommentWasDeleted') : t('thisCommentWasHidden')}
+              </em>
+            ) : null}
           </div>
           {!hidden ? (
             <div className="gsc-reply-reactions">

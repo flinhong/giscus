@@ -1,6 +1,6 @@
 {
   "reactions": {
-    "0": "brak reakcji",
+    "0": "Brak reakcji",
     "one": "{{count}} reakcja",
     "few": "{{count}} reakcje",
     "many": "{{count}} reakcji",
@@ -8,7 +8,7 @@
   },
   "comment": "Skomentuj",
   "comments": {
-    "0": "brak komentarzy",
+    "0": "Brak komentarzy",
     "one": "{{count}} komentarz",
     "few": "{{count}} komentarze",
     "many": "{{count}} komentarzy",
@@ -36,12 +36,14 @@
     "many": "{{count}} ukrytych",
     "other": "{{count}} ukryte"
   },
-  "genericError": "Wystąpił błąd{{message}}",
+  "genericError": "Wystąpił błąd: {{message}}",
   "loadMore": "Załaduj więcej",
   "loading": "Wczytywanie",
   "loadingComments": "Wczytywanie komentarzy…",
   "loadingPreview": "Wczytywanie podglądu…",
-  "poweredBy": "– zasilane przez",
+  "poweredBy": "– zasilane przez <a>giscus</a>",
+  "oldest": "Najstarszego",
+  "newest": "Najnowszego",
   "showPreviousReplies": {
     "0": "Pokaż {{count}} poprzednich odpowiedzi",
     "one": "Pokaż poprzednią odpowiedź",
@@ -62,6 +64,8 @@
   "thisCommentWasHidden": "Ten komentarz został ukryty.",
   "write": "Treść",
   "preview": "Podgląd",
+  "enableFixedWidth": "Włącz czcionki o stałej szerokości (monospace) w edytorze",
+  "disableFixedWidth": "Wyłącz czcionkę o stałej szerokości (monospace) w edytorze",
   "lastEditedAt": "Ostatnio edytowano {{date}}",
   "writeAComment": "Napisz komentarz",
   "signInToComment": "Zaloguj się aby skomentować",
@@ -70,10 +74,13 @@
   "signInWithGitHub": "Zaloguj się GitHubem",
   "writeAReply": "Napisz odpowiedź",
 
-  "pleaseWait": "Proszę czekać",
+  "upvote": "Upvote",
+  "addReactions": "Add reactions",
+  "pleaseWait": "Proszę czekać…",
   "pickYourReaction": "Wybierz reakcję",
-  "signIn": "Zaloguj się",
-  "toAddYourReaction": "aby dodać reakcję",
+  "addTheReaction": "Add {{reaction}} reaction",
+  "removeTheReaction": "Remove {{reaction}} reaction",
+  "signInToAddYourReaction": "<a>Zaloguj się</a> aby dodać reakcję.",
   "youMustBeSignedInToAddReactions": "Musisz być zalogowany/a aby dodawać reakcje.",
   "peopleReactedWith": {
     "0": "{{count}} osób zareagowało używając {{emoji}} {{reaction}}",
@@ -85,12 +92,22 @@
   "emoji": "emoji",
   "nothingToPreview": "Brak podglądu",
 
-  "+1": "kciuk w górę",
-  "-1": "kciuk w dół",
-  "Laugh": "uśmiechnięta twarz z przymrużonymi oczami",
-  "Hooray": "wzniesione ręce",
-  "Confused": "zdezorientowana twarz",
-  "Love": "czerwone serce",
-  "Rocket": "rakieta",
-  "Eyes": "oczy"
+  "THUMBS_UP": "kciuk w górę",
+  "THUMBS_DOWN": "kciuk w dół",
+  "LAUGH": "uśmiechnięta twarz z przymrużonymi oczami",
+  "HOORAY": "wzniesione ręce",
+  "CONFUSED": "zdezorientowana twarz",
+  "HEART": "czerwone serce",
+  "ROCKET": "rakieta",
+  "EYES": "oczy",
+
+  "COLLABORATOR": "Collaborator",
+  "CONTRIBUTOR": "Contributor",
+  "FIRST_TIMER": "First-timer",
+  "FIRST_TIME_CONTRIBUTOR": "First-time contributor",
+  "MANNEQUIN": "Mannequin",
+  "MEMBER": "Member",
+  "NONE": "None",
+  "OWNER": "Owner",
+  "APP": "App"
 }
