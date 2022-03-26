@@ -21,7 +21,7 @@
   "loading": "加载中",
   "loadingComments": "正在加载评论……",
   "loadingPreview": "正在加载预览……",
-  "poweredBy": "– 由 <a>giscus</a> 驱动",
+  "poweredBy": "– powered by <a>giscus</a>",
   "oldest": "最旧",
   "newest": "最新",
   "showPreviousReplies": {
