@@ -1,7 +1,8 @@
 {
   "origins": [
-    "https://frankindev.com",
-    "https://discuss.frankindev.com"
+    "https://www.frankindev.com",
+    "https://discuss.frankindev.com",
+    "https://gis.frankindev.com"
   ],
   "originsRegex": [
     "https://giscus-([A-z0-9]|-)*\\.vercel\\.app",
