@@ -40,7 +40,7 @@
   "disableFixedWidth": "在编辑器中禁用固定宽度（等宽）字体",
   "lastEditedAt": "最后编辑于 {{date}}",
   "writeAComment": "写评论",
-  "signInToComment": "登录以评论",
+  "signInToComment": "请登录后评论 😽",
   "stylingWithMarkdownIsSupported": "支持 Markdown",
   "cancel": "取消",
   "signInWithGitHub": "GitHub 登录",
