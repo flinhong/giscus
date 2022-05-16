@@ -60,6 +60,7 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
       viewer={data.viewer}
       discussionId={data.discussion.id}
       context={repo}
+      className={inputPosition === 'top' && data.totalCommentCount > 0 ? 'mb-4' : ''}
       onSubmit={addNewComment}
       onDiscussionCreateRequest={handleDiscussionCreateRequest}
     />
@@ -74,6 +75,15 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
   const shouldShowCommentBox =
     (data.isRateLimited && !token) ||
     (!data.isLoading && !data.isLocked && (!data.error || (data.isNotFound && !number)));
+
+  if (data.isLoading) {
+    return (
+      <div className="gsc-loading">
+        <div className="gsc-loading-image" />
+        <span className="gsc-loading-text color-fg-muted">{t('loadingComments')}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="color-text-primary gsc-main">
@@ -93,7 +103,7 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
               </a>
             )}
           </h4>
-          <div className="flex justify-center flex-auto mt-2 text-sm">
+          <div className="flex justify-center items-center gap-2 flex-auto mt-2 text-sm">
             <ReactButtons
               subjectId={data.discussion.id}
               reactionGroups={data.discussion.reactions}
@@ -112,8 +122,6 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
                 t('comments', { count: 0 })
               ) : data.error && !data.backData ? (
                 t('genericError', { message: data.error?.message || '' })
-              ) : data.isLoading ? (
-                t('loadingComments')
               ) : (
                 <a
                   href={data.discussion.url}

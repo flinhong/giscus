@@ -19,11 +19,13 @@ a {
   }
 }
 
-.color-bg-primary {
+.color-bg-primary,
+.color-bg-default {
   background-color: var(--color-canvas-default, var(--color-bg-primary));
 }
 
-.color-bg-secondary {
+.color-bg-secondary,
+.color-bg-subtle {
   background-color: var(--color-canvas-subtle, var(--color-bg-secondary));
 }
 
@@ -35,7 +37,7 @@ a {
   background-color: var(--color-canvas-default, var(--color-bg-canvas));
 }
 
-.color-bg-canvas-inset {
+.color-bg-inset {
   background-color: var(--color-canvas-inset, var(--color-bg-canvas-inset));
 }
 
@@ -47,6 +49,7 @@ a {
   background-color: var(--color-accent-subtle, var(--color-bg-info));
 }
 
+.color-fg-default,
 .color-text-primary,
 .link-primary {
   color: var(--color-fg-default, var(--color-text-primary));
@@ -56,6 +59,10 @@ a {
 .color-text-secondary,
 .link-secondary {
   color: var(--color-fg-muted, var(--color-text-secondary));
+}
+
+.color-fg-subtle {
+  color: var(--color-fg-subtle, var(--color-diff-blob-num-text));
 }
 
 .color-text-tertiary {
@@ -327,7 +334,7 @@ a {
   @apply inline-block h-3 px-2 text-xs font-semibold leading-[6px] no-underline align-middle border;
 
   color: var(--color-fg-default, var(--color-text-primary));
-  background: var(--color-neutral-muted, var(--color-hidden-text-expander-bg));
+  background-color: var(--color-neutral-muted, var(--color-hidden-text-expander-bg));
 }
 
 .email-quoted-reply,
@@ -346,28 +353,23 @@ a {
   @apply block;
 }
 
-.snippet-clipboard-content .zeroclipboard-container,
-.highlight .zeroclipboard-container {
+.ClipboardButton {
+  @apply p-0 m-2;
+}
+
+.snippet-clipboard-content .ClipboardButton,
+.highlight .ClipboardButton {
   @apply opacity-0;
 
   animation: fade-out 0.2s both;
 }
 
-.snippet-clipboard-content:hover .zeroclipboard-container,
-.highlight:hover .zeroclipboard-container {
+.ClipboardButton:focus,
+.snippet-clipboard-content:hover .ClipboardButton,
+.highlight:hover .ClipboardButton, {
   @apply opacity-100;
 
   animation: fade-in 0.2s both;
-}
-
-.zeroclipboard-link {
-  @apply p-0 m-0 cursor-pointer;
-
-  color: var(--color-accent-fg, var(--color-text-link));
-}
-
-.ClipboardButton {
-  @apply p-0 m-2;
 }
 
 img.emoji {
@@ -392,6 +394,20 @@ img.emoji {
 
 /*! giscus-specific styles */
 
+.gsc-loading {
+  @apply flex flex-col items-center gap-4;
+}
+
+.gsc-loading-image {
+  @apply w-12 h-12 bg-contain bg-no-repeat;
+
+  background-image: url("https://github.githubassets.com/images/mona-loading-default.gif");
+}
+
+.gsc-loading-text {
+  @apply text-sm whitespace-nowrap text-center w-full;
+}
+
 .gsc-tl-line {
   @apply w-[2px] flex-shrink-0 absolute left-[30px] h-full top-0;
 
@@ -415,7 +431,7 @@ img.emoji {
 }
 
 .gsc-timeline {
-  @apply flex flex-col mt-2;
+  @apply flex flex-col;
 }
 
 .gsc-comment {
@@ -481,15 +497,15 @@ img.emoji {
 }
 
 .gsc-comment-footer {
-  @apply flex content-center justify-between mb-3;
+  @apply flex content-center justify-between mb-3 gap-2;
 }
 
 .gsc-comment-reactions {
-  @apply flex items-start justify-end ml-4;
+  @apply flex items-start justify-end ml-4 gap-2;
 }
 
 .gsc-comment-replies-count {
-  @apply mr-4 whitespace-nowrap;
+  @apply mr-4 whitespace-nowrap flex items-center;
 }
 
 .gsc-replies {
@@ -497,11 +513,11 @@ img.emoji {
 }
 
 .gsc-comment-box {
-  @apply w-full mt-4 text-sm;
+  @apply w-full text-sm;
 }
 
 .gsc-comment-box:not(.gsc-comment-box-is-reply) {
-  @apply border rounded;
+  @apply border rounded mt-4;
 }
 
 .gsc-comment-box-tabs {
@@ -558,7 +574,7 @@ img.emoji {
 }
 
 .gsc-social-reaction-summary-item {
-  @apply px-[6px] rounded-full leading-[24px] border whitespace-nowrap;
+  @apply px-[4px] h-[26px] flex items-center justify-center rounded-full text-xs leading-[24px] border whitespace-nowrap;
 
   background-color: transparent;
   border-color: var(--color-border-default, var(--color-border-primary));
@@ -583,20 +599,20 @@ img.emoji {
   @apply cursor-not-allowed;
 }
 
+.gsc-social-reaction-summary-item-count {
+  @apply px-1 ml-[2px] max-w-[100px] overflow-hidden overflow-ellipsis whitespace-nowrap;
+}
+
+.gsc-direct-reaction-button-emoji {
+  @apply inline-block w-4 h-4 leading-tight;
+}
+
 .gsc-upvotes {
   @apply flex-shrink-0 mr-2 text-center w-14;
 }
 
-.gsc-upvote-count {
-  @apply px-1 ml-[2px] overflow-x-hidden overflow-ellipsis text-xs leading-5 min-w-[26px] w-min mx-auto rounded-full;
-}
-
 .gsc-upvote-button {
-  @apply mr-2;
-}
-
-.gsc-upvote-button:hover svg {
-  @apply transform translate-y-[-10%] transition-transform ease-in-out duration-150;
+  @apply font-medium;
 }
 
 .gsc-reactions-menu {
@@ -604,7 +620,14 @@ img.emoji {
 }
 
 .gsc-reactions-button {
-  @apply px-[5px] py-[3px] mr-2 leading-[inherit] text-xs cursor-pointer;
+  @apply w-[26px] h-[26px] px-0 flex items-center justify-center leading-tight text-xs cursor-pointer list-none;
+
+  background-color: var(--color-canvas-subtle, var(--color-bg-secondary));
+}
+
+.gsc-reactions-button::before,
+.gsc-reactions-button::-webkit-details-marker {
+  display: none;
 }
 
 .gsc-reactions-button::marker {
@@ -701,11 +724,11 @@ img.emoji {
 }
 
 .gsc-direct-reaction-buttons {
-  @apply flex flex-wrap;
+  @apply flex flex-wrap gap-2;
 }
 
 .gsc-direct-reaction-button {
-  @apply mb-1 mr-2 border;
+  @apply border items-baseline;
 }
 
 .gsc-reply {
@@ -725,11 +748,16 @@ img.emoji {
 }
 
 .gsc-reply-content {
-  @apply w-full pr-4;
+  @apply w-full pr-4 pb-2;
+}
+
+.gsc-reply-content .markdown pre,
+.gsc-reply-content.markdown .highlight pre {
+  background-color: var(--color-neutral-muted, var(--color-hidden-text-expander-bg));
 }
 
 .gsc-reply-content.not-shown {
-  @apply pb-2;
+  @apply pb-0;
 }
 
 .gsc-reply-reactions {

@@ -7,6 +7,46 @@ writing, this is a rolling-release project without any meaningful versioning
 whatsoever. Tags/releases may be created for the sole purpose of documenting
 major updates to the project.
 
+## 2022-04-17
+
+### Fixed
+
+- Minor style fixes
+  ([#500](https://github.com/giscus/giscus/pull/500)).
+
+## 2022-04-10
+
+### Fixed
+
+- Remove `<summary>` marker for reactions button on Safari
+  ([#486](https://github.com/giscus/giscus/pull/486)).
+
+## 2022-04-09
+
+### Changed
+
+- Use GitHub's Mona loading animation
+  ([#477](https://github.com/giscus/giscus/pull/477)).
+
+### Fixed
+
+- Minor style fixes
+  ([#484](https://github.com/giscus/giscus/pull/484)).
+
+## 2022-04-06
+
+### Fixed
+
+- Minor style fixes
+  ([#475](https://github.com/giscus/giscus/pull/475)).
+
+## 2022-04-02
+
+### Changed
+
+- Add spaces between date parts for Chinese locale
+  ([#464](https://github.com/giscus/giscus/pull/464)).
+
 ## 2022-03-26
 
 ### Changed

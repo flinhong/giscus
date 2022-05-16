@@ -158,12 +158,17 @@ export default function Comment({
                 }`}
                 onClick={upvote}
                 disabled={!token || !comment.viewerCanUpvote}
-                aria-label={t('upvote')}
+                aria-label={token ? t('upvote') : t('youMustBeSignedInToUpvote')}
+                title={
+                  token
+                    ? t('upvotes', { count: comment.upvoteCount })
+                    : t('youMustBeSignedInToUpvote')
+                }
               >
-                <ArrowUpIcon />
+                <ArrowUpIcon className="gsc-direct-reaction-button-emoji" />
 
                 <span
-                  className="gsc-upvote-count"
+                  className="gsc-social-reaction-summary-item-count"
                   title={t('upvotes', { count: comment.upvoteCount })}
                 >
                   {comment.upvoteCount}
@@ -187,7 +192,7 @@ export default function Comment({
         ) : null}
         {comment.replies.length > 0 ? (
           <div
-            className={`color-bg-canvas-inset color-border-primary gsc-replies ${
+            className={`color-bg-inset color-border-primary gsc-replies ${
               !replyBox || hidden ? 'rounded-b-md' : ''
             }`}
           >
