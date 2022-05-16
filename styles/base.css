@@ -547,7 +547,7 @@ img.emoji {
 
 .gsc-comment-box-buttons {
   @apply inline-flex flex-shrink-0;
-  @apply font-sans;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 
 .gsc-reply-box {
