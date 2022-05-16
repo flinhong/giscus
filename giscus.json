@@ -1,8 +1,6 @@
 {
   "origins": [
     "https://www.frankindev.com",
-    "https://discuss.frankindev.com",
-    "https://gis.frankindev.com",
     "https://dis.frankindev.com"
   ],
   "originsRegex": [

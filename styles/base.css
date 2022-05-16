@@ -547,6 +547,7 @@ img.emoji {
 
 .gsc-comment-box-buttons {
   @apply inline-flex flex-shrink-0;
+  @apply font-sans;
 }
 
 .gsc-reply-box {
