@@ -70,6 +70,7 @@ a {
 }
 
 .color-text-link,
+.color-fg-accent,
 .link-primary:hover,
 .link-secondary:hover {
   color: var(--color-accent-fg, var(--color-text-link));
@@ -77,6 +78,10 @@ a {
 
 .color-text-success {
   color: var(--color-success-fg, var(--color-text-success));
+}
+
+.color-fg-attention {
+  color: var(--color-attention-fg);
 }
 
 .color-text-danger {
@@ -198,7 +203,7 @@ a {
 }
 
 .octicon {
-  @apply fill-current;
+  @apply fill-current inline-block overflow-visible align-text-bottom;
 }
 
 /*! Compatibility shim for @primer/css to style GitHub-generated HTML */
@@ -469,6 +474,12 @@ img.emoji {
 
 .gsc-pagination {
   @apply flex justify-center py-2 my-4 bg-center bg-repeat-x;
+}
+
+.gsc-pagination-button {
+  @apply flex flex-col items-center px-6 py-2 text-sm border rounded;
+
+  background-color: var(--color-canvas-default, var(--color-bg-primary));
 }
 
 .gsc-comment-header {

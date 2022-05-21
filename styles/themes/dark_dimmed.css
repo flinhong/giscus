@@ -58,7 +58,7 @@ main {
   --color-btn-primary-disabled-border: rgb(205 217 229 / 10%);
   --color-fg-default: #adbac7;
   --color-fg-muted: #768390;
-  --color-fg-subtle: #545d68;
+  --color-fg-subtle: #636e7b;
   --color-canvas-default: #22272e;
   --color-canvas-overlay: #2d333b;
   --color-canvas-inset: #1c2128;
@@ -71,6 +71,7 @@ main {
   --color-accent-muted: rgb(65 132 228 / 40%);
   --color-accent-subtle: rgb(65 132 228 / 15%);
   --color-success-fg: #57ab5a;
+  --color-attention-fg: #c69026;
   --color-danger-fg: #e5534b;
   --color-primer-shadow-inset: 0 0 transparent;
   --color-primer-shadow-focus: 0 0 0 3px #143d79;
