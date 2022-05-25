@@ -1,4 +1,4 @@
-@import url("https://cdn.frankindev.com/fonts/css?family=IBM+Plex+Mono:ital,wght@0,300;1,300&family=Noto+Serif+SC&family=Zilla+Slab:ital@0;1&family=BIZ+UDPMincho&display=swap");
+@import url("https://cdn.frankindev.com/fonts/css?family=IBM+Plex+Mono:ital,wght@0,300;1,300&family=Noto+Serif+SC&family=Zilla+Slab:ital@0;1&family=BIZ+UDPMincho&family=Noto+Emoji&display=swap");
 
 body {
   font-family: "Zilla Slab", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Serif SC", STSong, serif;
@@ -72,7 +72,7 @@ a:hover {
 }
 
 .markdown .g-emoji {
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-family: "Noto Emoji", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   font-weight: 400;
 }
 
