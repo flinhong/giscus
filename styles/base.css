@@ -406,7 +406,7 @@ img.emoji {
 .gsc-loading-image {
   @apply w-12 h-12 bg-contain bg-no-repeat;
 
-  background-image: url("https://github.githubassets.com/images/mona-loading-default.gif");
+  background-image: url("/mona-loading-default.gif");
 }
 
 .gsc-loading-text {

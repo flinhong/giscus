@@ -155,9 +155,10 @@
         console.error(`${formatError(message)} No session is stored initially. ${suggestion}`);
       }
     } else if (message.includes('Discussion not found')) {
-      console.warn(
-        `[giscus] ${message}. A new discussion will be created if a comment/reaction is submitted.`,
-      );
+      // silent this message :>
+      // console.warn(
+      //   `[giscus] ${message}. A new discussion will be created if a comment/reaction is submitted.`,
+      // );
     } else if (message.includes('API rate limit exceeded')) {
       console.warn(formatError(message));
     } else {
