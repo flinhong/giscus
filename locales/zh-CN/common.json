@@ -40,7 +40,7 @@
   "disableFixedWidth": "在编辑器中禁用固定宽度（等宽）字体",
   "lastEditedAt": "最后编辑于 {{date}}",
   "writeAComment": "写评论",
-  "signInToComment": "请登录后评论 😽",
+  "signInToComment": "请登录后再评论",
   "stylingWithMarkdownIsSupported": "支持 Markdown",
   "cancel": "取消",
   "signInWithGitHub": "GitHub 登录",
@@ -66,9 +66,9 @@
   "LAUGH": "大笑",
   "HOORAY": "好耶",
   "CONFUSED": "疑惑",
-  "HEART": "爱了",
-  "ROCKET": "上天",
-  "EYES": "看看",
+  "HEART": "爱了爱了",
+  "ROCKET": "要上天了",
+  "EYES": "就看看",
 
   "COLLABORATOR": "合作者",
   "CONTRIBUTOR": "贡献者",
@@ -77,6 +77,6 @@
   "MANNEQUIN": "假人",
   "MEMBER": "成员",
   "NONE": "无",
-  "OWNER": "所有者",
+  "OWNER": "博主",
   "APP": "App"
 }
