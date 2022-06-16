@@ -1,12 +1,12 @@
-@import url("https://cdn.frankindev.com/fonts/css?family=IBM+Plex+Mono:ital,wght@0,300;1,300&family=Noto+Serif+SC&family=Zilla+Slab:ital@0;1&family=BIZ+UDPMincho&display=swap");
+@import url("https://cdn.frankindev.com/fonts/css?family=IBM+Plex+Mono:ital,wght@0,300;1,300&family=Noto+Serif+SC&family=Newsreader:ital,opsz@0,6..72;1,6..72&family=BIZ+UDPMincho&display=swap");
 
 body {
-  font-family: "Zilla Slab", "Noto Serif SC", "Microsoft YaHei UI", "Microsoft YaHei", STSong, serif;
+  font-family: "Newsreader", "Noto Serif SC", "Microsoft YaHei UI", "Microsoft YaHei", STSong, serif;
 }
 
 body * {
   border-color: var(--color-border-default, var(--color-border-primary));
-  font-family: "Zilla Slab", "Noto Serif SC", "Microsoft YaHei UI", "Microsoft YaHei", STSong, serif;
+  font-family: "Newsreader", "Noto Serif SC", "Microsoft YaHei UI", "Microsoft YaHei", STSong, serif;
 }
 
 pre,
@@ -195,7 +195,7 @@ a:hover {
 }
 
 .markdown .footnotes .data-footnote-backref .g-emoji {
-  font-family: monospace;
+  font-family: "IBM Plex Mono", Menlo, Monaco, "Microsoft YaHei", "Noto Serif SC", monospace;
 }
 
 .markdown sup > a::before {
