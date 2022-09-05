@@ -1,5 +1,6 @@
 body * {
   border-color: var(--color-border-default, var(--color-border-primary));
+  font-family: "Zilla Slab", "Noto Serif SC", serif;
 }
 
 a {
@@ -182,7 +183,7 @@ a:hover {
 }
 
 .markdown .footnotes .data-footnote-backref .g-emoji {
-  font-family: monospace;
+  font-family: "IBM Plex Mono", monospace;
 }
 
 .markdown sup > a::before {
