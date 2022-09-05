@@ -91,7 +91,7 @@ a:hover {
 {
 @apply p-4 overflow-auto text-xs rounded-md;
 
-line-height: 1.45;
+  line-height: 1.45;
   background-color: var(--color-canvas-subtle, var(--color-bg-tertiary));
 }
 
