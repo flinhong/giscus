@@ -87,10 +87,11 @@ a:hover {
 }
 
 .markdown pre,
-.markdown .highlight pre, {
-  @apply p-4 overflow-auto text-xs rounded-md;
+.markdown .highlight pre,
+{
+@apply p-4 overflow-auto text-xs rounded-md;
 
-  line-height: 1.45;
+line-height: 1.45;
   background-color: var(--color-canvas-subtle, var(--color-bg-tertiary));
 }
 
@@ -98,7 +99,7 @@ a:hover {
   @apply mb-0 break-normal;
 }
 
-.markdown pre > code {
+.markdown pre>code {
   background: transparent;
 }
 
@@ -134,11 +135,11 @@ a:hover {
   @apply list-decimal;
 }
 
-.markdown li + li {
+.markdown li+li {
   @apply mt-1;
 }
 
-.markdown li > p {
+.markdown li>p {
   @apply mt-4;
 }
 
@@ -186,18 +187,18 @@ a:hover {
   font-family: "IBM Plex Mono", monospace;
 }
 
-.markdown sup > a::before {
+.markdown sup>a::before {
   content: "[";
 }
 
-.markdown sup > a::after {
+.markdown sup>a::after {
   content: "]";
 }
 
-.markdown > :last-child {
+.markdown> :last-child {
   @apply mb-0;
 }
 
-.markdown > :first-child {
+.markdown> :first-child {
   @apply mt-0;
 }
