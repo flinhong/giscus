@@ -243,3 +243,17 @@ encounter any problems, [create a new issue][new-issue].
 [configuration]: https://github.com/giscus/giscus/blob/main/components/Configuration.tsx#L320
 [discussion]: https://github.com/giscus/giscus/discussions/categories/q-a
 [new-issue]: https://github.com/giscus/giscus/issues/new
+
+## Updating from forking
+
+Add the origin git repository as the "upstream":
+
+```sh
+git remote add upstream https://github.com/giscus/giscus.git
+```
+
+Fetch all the branches of the upstream into remote-tracking branches:
+
+```sh
+git fetch upstream
+```
