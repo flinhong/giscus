@@ -1,6 +1,6 @@
 body * {
   border-color: var(--color-border-default, var(--color-border-primary));
-  font-family: "'Zilla Slab', 'Noto Serif SC'", sans-serif;
+  font-family: "'Zilla Slab'", "'Noto Serif SC'", sans-serif;
 }
 
 a {
@@ -60,7 +60,7 @@ a:hover {
 }
 
 .markdown .g-emoji {
-  font-family: "'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'", sans-serif;
+  font-family: "'Apple Color Emoji'", "'Segoe UI Emoji'", "'Segoe UI Symbol'", sans-serif;
   font-weight: 400;
 }
 
@@ -183,7 +183,7 @@ a:hover {
 }
 
 .markdown .footnotes .data-footnote-backref .g-emoji {
-  font-family: "'IBM Plex Mono', 'Noto Serif SC'", monospace;
+  font-family: "'IBM Plex Mono'", "'Noto Serif SC'", monospace;
 }
 
 .markdown sup > a::before {
