@@ -198,6 +198,6 @@ line-height: 1.45;
   @apply mb-0;
 }
 
-.markdown> :first-child {
+.markdown > :first-child {
   @apply mt-0;
 }
