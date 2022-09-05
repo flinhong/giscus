@@ -37,6 +37,7 @@ class CustomDocument extends Document {
           <meta name="twitter:image" content={meta.image} />
           <link rel="manifest" href="/site.webmanifest" />
           <link rel="stylesheet" href={themeUrl} crossOrigin="anonymous" id="giscus-theme" />
+          <link href="https://cdn.honglin.eu.org/fonts/css?family=IBM+Plex+Mono:ital@0;1&family=Noto+Serif+SC&family=Zilla+Slab:ital@0;1&display=swap" />
         </Head>
         <body>
           <Main />
