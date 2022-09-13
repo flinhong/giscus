@@ -1,6 +1,6 @@
 body * {
   border-color: var(--color-border-default, var(--color-border-primary));
-  font-family: Baskerville, "Zilla Slab", "Noto Serif SC", serif;
+  font-family: "Zilla Slab", Baskerville, "Noto Serif SC", serif;
 }
 
 a {
@@ -183,7 +183,7 @@ a:hover {
 }
 
 .markdown .footnotes .data-footnote-backref .g-emoji {
-  font-family: Courier, "IBM Plex Mono", "Noto Serif SC", monospace;
+  font-family: "IBM Plex Mono", Courier, "Noto Serif SC", monospace;
 }
 
 .markdown sup > a::before {
