@@ -1,6 +1,6 @@
 body * {
   border-color: var(--color-border-default, var(--color-border-primary));
-  font-family: Baskerville, "Zilla Slab", "Noto Serif SC", sans-serif;
+  font-family: Baskerville, "Zilla Slab", "Noto Serif SC", serif;
 }
 
 a {
