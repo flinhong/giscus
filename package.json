@@ -48,7 +48,7 @@
     "cssnano": "^5.1.13",
     "eslint": "^7.22.0",
     "eslint-config-next": "^12.3.1",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "google-closure-compiler": "^20221004.0.0",
     "gulp": "^4.0.2",
