@@ -26,7 +26,7 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
   return (
     <div className="gsc-reply">
       <div className="gsc-tl-line" />
-      <div className={`flex py-2 px-4 ${hidden ? 'items-center' : ''}`}>
+      <div className={`flex ${hidden ? 'items-center' : ''}`}>
         <div className="gsc-reply-author-avatar">
           <a
             rel="nofollow noopener noreferrer"
@@ -40,6 +40,7 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
               width="30"
               height="30"
               alt={`@${reply.author.login}`}
+              loading="lazy"
             />
           </a>
         </div>
@@ -51,15 +52,17 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
                   rel="nofollow noopener noreferrer"
                   target="_blank"
                   href={reply.author.url}
-                  className="flex items-center"
+                  className="flex min-w-0 items-center"
                 >
-                  <span className="link-primary font-semibold">{reply.author.login}</span>
+                  <span className="link-primary overflow-hidden text-ellipsis font-semibold">
+                    {reply.author.login}
+                  </span>
                 </a>
                 <a
                   rel="nofollow noopener noreferrer"
                   target="_blank"
                   href={reply.url}
-                  className="link-secondary ml-2"
+                  className="link-secondary overflow-hidden text-ellipsis"
                 >
                   <time
                     className="whitespace-nowrap"
@@ -70,33 +73,21 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
                   </time>
                 </a>
                 {reply.authorAssociation !== 'NONE' ? (
-                  <div className="hidden text-xs ml-2 sm:inline-flex">
-                    <span
-                      className={`capitalize ml-1 rounded-md border px-1 ${
-                        reply.viewerDidAuthor ? 'color-box-border-info' : 'color-label-border'
-                      }`}
-                    >
+                  <div className="hidden text-xs leading-[18px] sm:inline-flex">
+                    <span className="color-box-border-info font-medium capitalize rounded-xl border px-[7px]">
                       {t(reply.authorAssociation)}
                     </span>
                   </div>
                 ) : null}
               </div>
-              <div className="flex">
-                {reply.lastEditedAt ? (
-                  <button
-                    className="color-text-secondary gsc-reply-edited"
-                    title={t('lastEditedAt', { date: reply.lastEditedAt })}
-                  >
-                    {t('edited')}
-                  </button>
-                ) : null}
-                <ReactButtons
-                  reactionGroups={reply.reactions}
-                  subjectId={reply.id}
-                  variant="popoverOnly"
-                  onReact={updateReactions}
-                />
-              </div>
+              {reply.lastEditedAt ? (
+                <button
+                  className="color-text-secondary gsc-reply-edited"
+                  title={t('lastEditedAt', { date: reply.lastEditedAt })}
+                >
+                  {t('edited')}
+                </button>
+              ) : null}
             </div>
           ) : null}
           {/*
@@ -119,13 +110,15 @@ export default function Reply({ reply, onReplyUpdate }: IReplyProps) {
             ) : null}
           </div>
           {!hidden ? (
-            <div className="gsc-reply-reactions">
-              <ReactButtons
-                reactionGroups={reply.reactions}
-                subjectId={reply.id}
-                variant="groupsOnly"
-                onReact={updateReactions}
-              />
+            <div className="gsc-reply-footer">
+              <div className="gsc-reply-reactions">
+                <ReactButtons
+                  reactionGroups={reply.reactions}
+                  subjectId={reply.id}
+                  onReact={updateReactions}
+                  popoverPosition="top"
+                />
+              </div>
             </div>
           ) : null}
         </div>

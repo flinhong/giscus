@@ -15,7 +15,21 @@ a {
   color: var(--color-accent-fg, var(--color-text-link));
 }
 
-@media screen and (max-width: 320px) {
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--color-accent-fg, var(--color-text-link));
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+details summary {
+  @apply cursor-pointer;
+}
+
+@media screen and (width <= 320px) {
   html {
     font-size: 5vw;
   }
@@ -103,14 +117,16 @@ a {
 }
 
 .form-control {
+  @apply align-middle;
+
   background-color: var(--color-canvas-default, var(--color-input-bg));
   border-color: var(--color-border-default, var(--color-input-border));
 }
 
 .form-control:focus {
-  border-color: var(--color-accent-emphasis, var(--color-state-focus-border));
+  border-color: var(--color-accent-fg, var(--color-text-link));
   outline: none;
-  box-shadow: var(--color-primer-shadow-focus, var(--color-state-focus-shadow));
+  box-shadow: 0 0 0 2px var(--color-accent-fg, var(--color-text-link));
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -150,27 +166,33 @@ a {
 }
 
 .BtnGroup {
-  @apply inline-flex align-middle;
+  background-color: var(
+    --color-segmented-control-bg,
+    var(--color-canvas-subtle, var(--color-bg-secondary))
+  );
+
+  @apply inline-flex items-center align-middle rounded-md;
 }
 
 .BtnGroup-item {
-  @apply rounded-none;
+  @apply inline-flex rounded-md border border-transparent px-1 py-0.5;
 }
 
-.BtnGroup-item:not(:first-child, :last-child) {
-  @apply border-l-0;
+.BtnGroup-item.BtnGroup-item--selected {
+  @apply font-semibold;
+
+  background-color: var(
+    --color-segmented-control-button-bg,
+    var(--color-btn-bg)
+  );
+  border-color: var(
+    --color-segmented-control-button-selected-border,
+    var(--color-border-default, var(--color-border-primary))
+  );
 }
 
-.BtnGroup-item:first-child:not(:only-child) {
-  @apply rounded-l rounded-r-none;
-}
-
-.BtnGroup-item:last-child:not(:only-child) {
-  @apply rounded-l-none rounded-r;
-}
-
-.BtnGroup-item:first-child + .BtnGroup-item:last-child {
-  @apply border-l-0;
+.BtnGroup-item .btn {
+  @apply px-2 py-0.5 bg-inherit border-0 shadow-none;
 }
 
 .btn:hover {
@@ -187,9 +209,17 @@ a {
   border-color: var(--color-btn-active-border);
 }
 
-.btn[aria-selected="true"] {
-  background-color: var(--color-btn-selected-bg);
-  box-shadow: var(--color-primer-shadow-inset);
+.BtnGroup-item .btn:hover {
+  @apply border-transparent;
+
+  background-color: var(
+    --color-action-list-item-default-hover-bg,
+    var(--color-btn-hover-bg)
+  );
+}
+
+.BtnGroup-item.BtnGroup-item--selected .btn:hover {
+  @apply bg-inherit;
 }
 
 .btn-primary {
@@ -473,40 +503,40 @@ img.emoji {
 }
 
 .gsc-timeline {
-  @apply flex flex-col;
+  @apply flex flex-col gap-4;
 }
 
 .gsc-comment {
-  @apply flex my-4 text-sm;
+  @apply flex text-sm;
 }
 
 .gsc-main {
-  @apply w-full;
+  @apply w-full flex flex-col gap-8;
 }
 
 .gsc-reactions {
-  @apply flex flex-col justify-center flex-auto mb-4;
+  @apply flex flex-col justify-center flex-auto;
 }
 
 .gsc-reactions-count {
   @apply font-semibold text-center;
 }
 
+.gsc-comments {
+  @apply flex flex-col gap-6;
+}
+
 .gsc-header {
-  @apply flex items-center flex-auto;
+  @apply flex items-center flex-auto gap-2;
 }
 
 .gsc-left-header {
-  @apply flex flex-wrap items-center flex-auto whitespace-nowrap;
+  @apply flex flex-wrap items-center flex-auto whitespace-nowrap gap-2;
 }
 
 .gsc-comments-count,
 .gsc-comments-count-separator {
-  @apply mr-2 font-semibold;
-}
-
-.gsc-replies-count {
-  @apply mr-2;
+  @apply font-semibold;
 }
 
 .gsc-pagination {
@@ -520,20 +550,15 @@ img.emoji {
 }
 
 .gsc-comment-header {
-  @apply flex items-center px-4;
+  @apply flex items-center px-4 pt-2 gap-2;
 }
 
 .gsc-comment-author {
-  @apply flex items-center flex-auto pt-2;
+  @apply flex items-center flex-auto min-w-0 gap-2;
 }
 
 .gsc-comment-author-avatar {
-  @apply flex items-center;
-}
-
-.gsc-comment-edited,
-.gsc-reply-edited {
-  @apply hidden sm:inline-block;
+  @apply flex items-center min-w-0;
 }
 
 .gsc-comment-content {
@@ -544,7 +569,7 @@ img.emoji {
   @apply px-4 py-2 border-b;
 }
 
-.gsc-comment-footer {
+.gsc-comment-footer, .gsc-reply-footer {
   @apply flex content-center justify-between mb-3 gap-2;
 }
 
@@ -565,7 +590,7 @@ img.emoji {
 }
 
 .gsc-comment-box:not(.gsc-comment-box-is-reply) {
-  @apply border rounded mt-4;
+  @apply border rounded;
 }
 
 .gsc-comment-box-tabs {
@@ -581,6 +606,8 @@ img.emoji {
 }
 
 .gsc-toolbar-item {
+  @apply p-1;
+
   color: var(--color-fg-muted, var(--color-text-secondary));
 }
 
@@ -594,15 +621,39 @@ img.emoji {
 }
 
 .gsc-comment-box-preview {
-  @apply px-2 pt-2 pb-4 min-h-[105px] border-b-2;
+  @apply px-2 pt-2 pb-4 min-h-[131px] border-b-2;
+}
+
+.gsc-comment-box-write {
+  @apply rounded;
+}
+
+.gsc-comment-box-write:focus-within {
+  border-color: var(--color-accent-fg, var(--color-text-link));
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-accent-fg, var(--color-text-link));
 }
 
 .gsc-comment-box-textarea {
   @apply w-full p-2 border rounded min-h-[100px] max-h-[500px] disabled:cursor-not-allowed;
+
+  border-bottom-style: dashed;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.gsc-comment-box-textarea:focus {
+  @apply shadow-none;
+
+  border-color: var(--color-border-default, var(--color-input-border));
+}
+
+.gsc-comment-box-textarea-extras {
+  @apply flex justify-end px-2.5 py-[7px] border border-t-0 rounded-b;
 }
 
 .gsc-comment-box-bottom {
-  @apply flex items-center justify-between m-2;
+  @apply flex items-center m-2;
 }
 
 .gsc-comment-box-markdown-hint {
@@ -610,7 +661,7 @@ img.emoji {
 }
 
 .gsc-comment-box-buttons {
-  @apply inline-flex shrink-0;
+  @apply inline-flex shrink-0 ml-auto;
 }
 
 .gsc-reply-box {
@@ -703,39 +754,43 @@ img.emoji {
 }
 
 .gsc-reactions-popover.open.bottom::before {
-  top: -16px;
+  @apply top-[-16px];
+
   border-bottom-color: var(--color-border-default, var(--color-border-primary));
 }
 
 .gsc-reactions-popover.open.bottom::after {
-  top: -15px;
+  @apply top-[-15px];
+
   border-bottom: 8px solid var(--color-canvas-overlay, var(--color-bg-overlay));
 }
 
 .gsc-reactions-popover.open.top::before {
-  bottom: -16px;
+  @apply bottom-[-16px];
+
   border-top-color: var(--color-border-default, var(--color-border-primary));
 }
 
 .gsc-reactions-popover.open.top::after {
-  bottom: -15px;
+  @apply bottom-[-15px];
+
   border-top: 8px solid var(--color-canvas-overlay, var(--color-bg-overlay));
 }
 
 .gsc-reactions-popover.open.left::before {
-  left: 9px;
+  @apply left-[9px];
 }
 
 .gsc-reactions-popover.open.left::after {
-  left: 10px;
+  @apply left-[10px];
 }
 
 .gsc-reactions-popover.open.right::before {
-  right: 9px;
+  @apply right-[9px];
 }
 
 .gsc-reactions-popover.open.right::after {
-  right: 10px;
+  @apply right-[10px];
 }
 
 .gsc-reactions-popover {
@@ -752,7 +807,11 @@ img.emoji {
 }
 
 .gsc-reactions-popover.top {
-  @apply bottom-8;
+  @apply bottom-9 -left-1.5;
+}
+
+.gsc-reactions-popover.bottom {
+  @apply top-9 -left-1.5;
 }
 
 .gsc-emoji-button {
@@ -776,7 +835,7 @@ img.emoji {
 }
 
 .gsc-reply {
-  @apply relative;
+  @apply relative p-4 pb-2;
 }
 
 .gsc-reply-author-avatar {
@@ -784,18 +843,18 @@ img.emoji {
 }
 
 .gsc-reply-header {
-  @apply flex;
+  @apply flex py-1 mb-2 gap-2;
 }
 
 .gsc-reply-author {
-  @apply flex items-start flex-auto;
+  @apply flex items-center flex-auto min-w-0 gap-2;
 }
 
 .gsc-reply-content {
   @apply w-full pb-2;
 }
 
-.gsc-reply-content .markdown pre,
+.gsc-reply-content.markdown pre,
 .gsc-reply-content.markdown .highlight pre {
   background-color: var(--color-neutral-muted, var(--color-hidden-text-expander-bg));
 }
@@ -804,8 +863,12 @@ img.emoji {
   @apply pb-0;
 }
 
+.gsc-reply-footer {
+  @apply mb-0;
+}
+
 .gsc-reply-reactions {
-  @apply flex content-center mr-4;
+  @apply flex content-center mr-4 gap-2 -ml-1;
 }
 
 .gsc-is-fixed-width {

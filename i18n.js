@@ -1,28 +1,15 @@
-const fallbacks = {
-  gsw: 'de',
-  'zh-Hans': 'zh-CN',
-  'zh-Hant': 'zh-TW',
-};
-
-const workaround = require('next-translate/lib/cjs/plugin/utils.js');
-
-// https://github.com/aralroca/next-translate/issues/851#issuecomment-1173611946
-workaround.defaultLoader = `
-  (l, n) => {
-    const lang = ${JSON.stringify(fallbacks)}[l] ?? l;
-    return import(\`@next-translate-root/locales/\${lang}/\${n}\`).then(m => m.default);
-  }
-`;
-
 module.exports = {
   locales: [
     'ar',
+    'ca',
     'de',
     'en',
+    'eo',
     'es',
     'fa',
     'fr',
     'gsw',
+    'he',
     'id',
     'it',
     'ja',
@@ -35,12 +22,12 @@ module.exports = {
     'th',
     'tr',
     'vi',
+    'uk',
     'zh-CN',
     'zh-Hans',
     'zh-Hant',
     'zh-TW',
   ],
-  fallbacks,
   defaultLocale: 'en',
   pages: {
     '*': ['common'],

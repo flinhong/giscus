@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useState } from 'react';
 import Giscus from '../components/Giscus';
 import { AuthContext, ConfigContext, getLoginUrl } from '../lib/context';
 import { emitData } from '../lib/messages';
-import { IErrorMessage, IResizeHeightMessage } from '../lib/types/giscus';
+import { IErrorMessage, IResizeHeightMessage, ISignOutMessage } from '../lib/types/giscus';
 import { cleanAnchor } from '../lib/utils';
 import { createDiscussion } from '../services/giscus/createDiscussion';
 import { getToken } from '../services/giscus/token';
@@ -39,6 +39,19 @@ export default function Widget({ origin, session }: IWidgetProps) {
     [origin],
   );
 
+  const handleSignOut = useCallback(() => {
+    emitData<ISignOutMessage & IErrorMessage>(
+      {
+        signOut: true,
+        // HACK: For client scripts that haven't been updated to support sign out,
+        // use the error message handler to sign out. Remove this after a reasonable
+        // period of time.
+        error: 'State has expired (user signed out).',
+      },
+      origin,
+    );
+  }, [origin]);
+
   useEffect(() => {
     if (session && !token) {
       getToken(session)
@@ -61,7 +74,7 @@ export default function Widget({ origin, session }: IWidgetProps) {
   const ready = (!session || token) && repo && (term || number);
 
   return ready ? (
-    <AuthContext.Provider value={{ token, origin, getLoginUrl }}>
+    <AuthContext.Provider value={{ token, origin, getLoginUrl, onSignOut: handleSignOut }}>
       <Giscus onDiscussionCreateRequest={handleDiscussionCreateRequest} onError={handleError} />
     </AuthContext.Provider>
   ) : null;

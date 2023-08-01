@@ -79,11 +79,14 @@ giscusをReactやVue、Svelteで利用する場合は[giscusコンポーネン�
 このREADMEは下記の言語も存在します:
 
 - [Arabic (العربية)](README.ar.md)
+- [Català](README.ca.md)
 - [Deutsch](README.de.md)
 - [English](README.md)
+- [Esperanto](README.eo.md)
 - [Español](README.es.md)
 - [Persian (فارسی)](README.fa.md)
 - [Français](README.fr.md)
+- [עברית](README.he.md)
 - [Indonesia](README.id.md)
 - [Italiano](README.it.md)
 - [日本語](README.ja.md)
@@ -96,6 +99,7 @@ giscusをReactやVue、Svelteで利用する場合は[giscusコンポーネン�
 - [ภาษาไทย](README.th.md)
 - [Türkçe](README.tr.md)
 - [Tiếng Việt](README.vi.md)
+- [Українська](README.uk.md)
 - [简体中文](README.zh-CN.md)
 - [繁體中文](README.zh-TW.md)
 

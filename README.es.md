@@ -1,17 +1,17 @@
 # [giscus][giscus]
 
-Un sistema de comentarios desarrollado con [Discusiones de GitHub][discussions]. ¡Permite a sus visitantes dejar comentarios y reacciones en su sitio web a través de GitHub! Inspirado en [utterances][utterances].
+Un sistema de comentarios desarrollado con [Discusiones de GitHub][discussions]. ¡Permite a tus visitantes dejar comentarios y reacciones en su sitio web a través de GitHub! Inspirado en [utterances][utterances].
 
 - [Código abierto][repo]. 🌏
 - Sin seguimiento, sin anuncios, siempre gratis. 📡 🚫
 - No se necesita base de datos. Todos los datos se almacenan en Discusiones de GitHub. :octocat:
 - ¡Soporta [temas personalizados][creating-custom-themes]! 🌗
-- Soporta múltiples idiomas][multiple-languages]. 🌐
+- Soporta [múltiples idiomas][multiple-languages]. 🌐
 - [Ampliamente configurable][advanced-usage]. 🔧
 - Obtiene automáticamente nuevos comentarios y ediciones de GitHub. 🔃
 - [Puede ser autohospedado][self-hosting]! 🤳
 
-> **Note:**\
+> **Nota:**\
 > giscus todavía está en desarrollo activo. GitHub también sigue desarrollando activamente Discusiones y su API. Por lo tanto, algunas características de giscus pueden romperse o cambiar con el tiempo.
 
 ## Cómo funciona
@@ -34,17 +34,17 @@ Para comentar, los visitantes deben autorizar la [aplicación de giscus][giscus-
 
 <!-- configuration -->
 
-Si está usando giscus, considere [recomendar 🌟 giscus en GitHub][repo] y agrega [`giscus`][giscus-topic] topic [en tu repositorio][topic-howto]! 🎉
+Si estás usando giscus, considera [recomendar 🌟 giscus en GitHub][repo] y agregar el tópico [`giscus`][giscus-topic] [a tu repositorio][topic-howto]! 🎉
 
 ## Uso avanzado
 
-Puede agregar configuraciones adicionales (por ejemplo, permitir orígenes específicos) siguiendo la [guía de uso avanzado][advanced-usage].
+Puedes agregar configuraciones adicionales (por ejemplo, permitir orígenes específicos) siguiendo la [guía de uso avanzado][advanced-usage].
 
-Para usar giscus con React, Vue o Svelte, consulte la [biblioteca de componentes de giscus][giscus-component].
+Para usar giscus con React, Vue o Svelte, consulta la [biblioteca de componentes de giscus][giscus-component].
 
 ## Migrando
 
-Si ha utilizado anteriormente otros sistemas que usan GitHub Issues (p.ej. [utterances][utterances], [gitalk][gitalk]), puedes [convertir los issues existentes en discusiones][convert]. Después de la conversión, asegúrese de que el mapeo entre los títulos de la discusión y las páginas sea correcto, entonces giscus utilizará automáticamente las discusiones.
+Si has utilizado anteriormente otros sistemas que usan GitHub Issues (p.ej. [utterances][utterances], [gitalk][gitalk]), puedes [convertir los issues existentes en discusiones][convert]. Después de la conversión, asegúrate de que el mapeo entre los títulos de la discusión y las páginas sea correcto, entonces giscus utilizará automáticamente las discusiones.
 
 ## Sitios que usan giscus
 
@@ -79,11 +79,14 @@ Ver [CONTRIBUTING.md][contributing]
 Este archivo README está disponible en:
 
 - [Arabic (العربية)](README.ar.md)
+- [Català](README.ca.md)
 - [Deutsch](README.de.md)
 - [English](README.md)
+- [Esperanto](README.eo.md)
 - [Español](README.es.md)
 - [Persian (فارسی)](README.fa.md)
 - [Français](README.fr.md)
+- [עברית](README.he.md)
 - [Indonesia](README.id.md)
 - [Italiano](README.it.md)
 - [日本語](README.ja.md)
@@ -96,6 +99,7 @@ Este archivo README está disponible en:
 - [ภาษาไทย](README.th.md)
 - [Türkçe](README.tr.md)
 - [Tiếng Việt](README.vi.md)
+- [Українська](README.uk.md)
 - [简体中文](README.zh-CN.md)
 - [繁體中文](README.zh-TW.md)
 

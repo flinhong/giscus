@@ -21,6 +21,7 @@
   let session = url.searchParams.get('giscus') || '';
   const savedSession = localStorage.getItem(GISCUS_SESSION_KEY);
   url.searchParams.delete('giscus');
+  url.hash = '';
   const cleanedLocation = url.toString();
 
   if (session) {
@@ -102,27 +103,19 @@
   Object.entries(iframeAttributes).forEach(
     ([key, value]) => value && iframeElement.setAttribute(key, value),
   );
+  // Prevent white flash on load
+  iframeElement.style.opacity = '0';
   iframeElement.addEventListener('load', () => {
+    iframeElement.style.removeProperty('opacity');
     iframeElement.classList.remove('giscus-frame--loading');
   });
 
-  // Create default style and prepend as <head>'s first child to make override possible.
-  const style = document.getElementById('giscus-css') || document.createElement('style');
+  // Link default style and prepend as <head>'s first child to make override possible.
+  const style =
+    (document.getElementById('giscus-css') as HTMLLinkElement) || document.createElement('link');
   style.id = 'giscus-css';
-  style.textContent = `
-  .giscus, .giscus-frame {
-    width: 100%;
-    min-height: 150px;
-  }
-
-  .giscus-frame {
-    border: none;
-    color-scheme: light dark;
-  }
-  .giscus-frame--loading {
-    opacity: 0;
-  }
-`;
+  style.rel = 'stylesheet';
+  style.href = `${giscusOrigin}/default.css`;
   document.head.prepend(style);
 
   // Insert iframe element
@@ -138,6 +131,12 @@
   }
   const suggestion = `Please consider reporting this error at https://github.com/giscus/giscus/issues/new.`;
 
+  function signOut() {
+    delete params.session;
+    const src = `${giscusOrigin}/widget?${new URLSearchParams(params)}`;
+    iframeElement.src = src; // Force reload
+  }
+
   // Listen to messages
   window.addEventListener('message', (event) => {
     if (event.origin !== giscusOrigin) return;
@@ -147,6 +146,13 @@
 
     if (data.giscus.resizeHeight) {
       iframeElement.style.height = `${data.giscus.resizeHeight}px`;
+    }
+
+    if (data.giscus.signOut) {
+      localStorage.removeItem(GISCUS_SESSION_KEY);
+      console.log(`[giscus] User has logged out. Session has been cleared.`);
+      signOut();
+      return;
     }
 
     if (!data.giscus.error) return;
@@ -162,10 +168,7 @@
       if (localStorage.getItem(GISCUS_SESSION_KEY) !== null) {
         localStorage.removeItem(GISCUS_SESSION_KEY);
         console.warn(`${formatError(message)} Session has been cleared.`);
-
-        delete params.session;
-        const src = `${giscusOrigin}/widget?${new URLSearchParams(params)}`;
-        iframeElement.src = src; // Force reload
+        signOut();
       } else if (!savedSession) {
         console.error(`${formatError(message)} No session is stored initially. ${suggestion}`);
       }

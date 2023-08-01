@@ -7,6 +7,68 @@ writing, this is a rolling-release project without any meaningful versioning
 whatsoever. Tags/releases may be created for the sole purpose of documenting
 major updates to the project.
 
+## 2023-07-29
+
+### Added
+
+- Add Esperanto localization
+  ([#1124](https://github.com/giscus/giscus/pull/1124)).
+
+## 2023-07-01
+
+### Changed
+
+- Update comment sorting button styles to match GitHub
+  ([#1096](https://github.com/giscus/giscus/pull/1096)).
+
+## 2023-06-25
+
+### Changed
+
+- Various style fixes
+  ([#1030](https://github.com/giscus/giscus/pull/1030)).
+
+## 2023-06-24
+
+### Added
+
+- Add Hebrew localization
+  ([#1056](https://github.com/giscus/giscus/pull/1056)).
+
+- Add Catalan localization
+  ([#1071](https://github.com/giscus/giscus/pull/1071)).
+
+- Add NoBorder themes
+  ([#1052](https://github.com/giscus/giscus/pull/1052)).
+
+## 2023-04-01
+
+### Added
+
+- Add Ukrainian localization
+  ([#677](https://github.com/giscus/giscus/pull/677),
+  [#855](https://github.com/giscus/giscus/pull/855),
+  [#911](https://github.com/giscus/giscus/pull/911)).
+
+## 2023-02-26
+
+### Added
+
+- Add sign out button
+  ([#919](https://github.com/giscus/giscus/pull/919)).
+
+### Changed
+
+- Use `<link>` element to load default CSS
+  ([#920](https://github.com/giscus/giscus/pull/920)).
+
+## 2023-02-25
+
+### Changed
+
+- Use lazy loading for avatar images
+  ([#918](https://github.com/giscus/giscus/pull/918)).
+
 ## 2023-02-11
 
 ### Added

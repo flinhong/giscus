@@ -62,10 +62,8 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
 
   const mainCommentBox = (
     <CommentBox
-      viewer={data.viewer}
       discussionId={data.discussion.id}
       context={repo}
-      className={inputPosition === 'top' && data.totalCommentCount > 0 ? 'mb-4' : ''}
       onSubmit={addNewComment}
       onDiscussionCreateRequest={handleDiscussionCreateRequest}
     />
@@ -168,30 +166,30 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
             ) : null}
           </div>
           {data.totalCommentCount > 0 ? (
-            <div className="gsc-right-header BtnGroup" role="listbox">
-              <button
-                className="btn BtnGroup-item"
-                aria-selected={orderBy === 'oldest'}
-                role="option"
-                onClick={() => setOrderBy('oldest')}
+            <ul className="gsc-right-header BtnGroup">
+              <li
+                className={`BtnGroup-item ${orderBy === 'oldest' ? 'BtnGroup-item--selected' : ''}`}
+                aria-current={orderBy === 'oldest'}
               >
-                {t('oldest')}
-              </button>
-              <button
-                className="btn BtnGroup-item"
-                aria-selected={orderBy === 'newest'}
-                role="option"
-                onClick={() => setOrderBy('newest')}
+                <button className="btn" onClick={() => setOrderBy('oldest')}>
+                  {t('oldest')}
+                </button>
+              </li>
+              <li
+                className={`BtnGroup-item ${orderBy === 'newest' ? 'BtnGroup-item--selected' : ''}`}
+                aria-current={orderBy === 'newest'}
               >
-                {t('newest')}
-              </button>
-            </div>
+                <button className="btn" onClick={() => setOrderBy('newest')}>
+                  {t('newest')}
+                </button>
+              </li>
+            </ul>
           ) : null}
         </div>
 
         {shouldShowCommentBox && inputPosition === 'top' ? mainCommentBox : null}
 
-        <div className="gsc-timeline">
+        <div className={`gsc-timeline ${data.totalCommentCount === 0 ? 'hidden' : ''}`}>
           {!data.isLoading
             ? data.frontComments.map((comment) => (
                 <Comment
@@ -204,7 +202,6 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
                         context={repo}
                         onSubmit={frontMutators.addNewReply}
                         replyToId={comment.id}
-                        viewer={data.viewer}
                       />
                     ) : undefined
                   }
@@ -243,7 +240,6 @@ export default function Giscus({ onDiscussionCreateRequest, onError }: IGiscusPr
                         context={repo}
                         onSubmit={backMutators.addNewReply}
                         replyToId={comment.id}
-                        viewer={data.viewer}
                       />
                     ) : undefined
                   }

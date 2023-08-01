@@ -29,6 +29,10 @@ main {
   --color-prettylights-syntax-brackethighlighter-angle: #768390;
   --color-prettylights-syntax-sublimelinter-gutter-mark: #545d68;
   --color-prettylights-syntax-constant-other-reference-link: #96d0ff;
+  --color-action-list-item-default-hover-bg: rgb(144 157 171 / 12%);
+  --color-segmented-control-bg: rgb(99 110 123 / 10%);
+  --color-segmented-control-button-bg: #22272e;
+  --color-segmented-control-button-selected-border: #636e7b;
   --color-btn-text: #adbac7;
   --color-btn-bg: #00182d;
   --color-btn-border: rgb(205 217 229 / 10%);
@@ -73,7 +77,6 @@ main {
   --color-danger-muted: rgb(229 83 75 / 40%);
   --color-danger-subtle: rgb(229 83 75 / 15%);
   --color-primer-shadow-inset: 0 0 transparent;
-  --color-primer-shadow-focus: 0 0 0 3px #143d79;
   --color-scale-gray-7: #002241;
   --color-scale-blue-8: #00182d;
   --color-social-reaction-bg-hover: var(--color-scale-gray-7);

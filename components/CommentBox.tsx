@@ -1,16 +1,15 @@
-import { MarkdownIcon, MarkGithubIcon, TypographyIcon } from '@primer/octicons-react';
+import { MarkdownIcon, MarkGithubIcon, SignOutIcon, TypographyIcon } from '@primer/octicons-react';
 import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { adaptComment, adaptReply, handleCommentClick, processCommentBody } from '../lib/adapter';
 import { AuthContext } from '../lib/context';
 import { useGiscusTranslation } from '../lib/i18n';
-import { IComment, IReply, IUser } from '../lib/types/adapter';
+import { IComment, IReply } from '../lib/types/adapter';
 import { resizeTextArea } from '../lib/utils';
 import { addDiscussionComment } from '../services/github/addDiscussionComment';
 import { addDiscussionReply } from '../services/github/addDiscussionReply';
 import { renderMarkdown } from '../services/github/markdown';
 
 interface CommentBoxProps {
-  viewer?: IUser;
   discussionId?: string;
   context?: string;
   replyToId?: string;
@@ -20,7 +19,6 @@ interface CommentBoxProps {
 }
 
 export default function CommentBox({
-  viewer,
   discussionId,
   context,
   replyToId,
@@ -38,10 +36,11 @@ export default function CommentBox({
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [isFixedWidth, setIsFixedWidth] = useState(false);
   const [lastHeight, setLastHeight] = useState('');
-  const { token, origin, getLoginUrl } = useContext(AuthContext);
+  const { token, origin, getLoginUrl, onSignOut } = useContext(AuthContext);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const loginUrl = getLoginUrl(origin);
   const isReply = !!replyToId;
+  const placeHolderText = isReply ? t('writeAReply') : t('writeAComment');
 
   useEffect(() => {
     if (isPreview && input !== lastInput) {
@@ -134,9 +133,9 @@ export default function CommentBox({
       <div className="color-bg-tertiary color-border-primary gsc-comment-box-tabs">
         <div className="mx-2 mb-[-1px] mt-2">
           <button
-            className={`border border-b-0 px-4 py-2 focus:outline-none ${
+            className={`rounded-t border border-b-0 px-4 py-2 ${
               !isPreview
-                ? 'color-text-primary color-bg-canvas color-border-primary rounded-t'
+                ? 'color-text-primary color-bg-canvas color-border-primary'
                 : 'color-text-secondary border-transparent'
             }`}
             onClick={() => setIsPreview(false)}
@@ -145,14 +144,13 @@ export default function CommentBox({
             {t('write')}
           </button>
           <button
-            className={`ml-1 border border-b-0 px-4 py-2 focus:outline-none ${
+            className={`ml-1 rounded-t border border-b-0 px-4 py-2 ${
               isPreview
-                ? 'color-text-primary color-bg-canvas color-border-primary rounded-t'
+                ? 'color-text-primary color-bg-canvas color-border-primary'
                 : 'color-text-secondary border-transparent'
             }`}
             onClick={() => setIsPreview(true)}
             type="button"
-            tabIndex={-1}
           >
             {t('preview')}
           </button>
@@ -190,31 +188,41 @@ export default function CommentBox({
             {isLoading ? t('loadingPreview') : undefined}
           </div>
         ) : (
-          <textarea
-            className={`form-control input-contrast gsc-comment-box-textarea ${
-              isFixedWidth ? 'gsc-is-fixed-width' : ''
-            }`}
-            placeholder={token ? t('writeAComment') : t('signInToComment')}
-            onChange={handleTextAreaChange}
-            value={input}
-            disabled={!token || isSubmitting}
-            ref={textarea}
-            onKeyDown={(event) =>
-              (event.ctrlKey || event.metaKey) && event.key === 'Enter' && handleSubmit()
-            }
-          ></textarea>
+          <div className="gsc-comment-box-write">
+            <textarea
+              className={`form-control input-contrast gsc-comment-box-textarea ${
+                isFixedWidth ? 'gsc-is-fixed-width' : ''
+              }`}
+              placeholder={token ? placeHolderText : t('signInToComment')}
+              onChange={handleTextAreaChange}
+              value={input}
+              disabled={!token || isSubmitting}
+              ref={textarea}
+              onKeyDown={(event) =>
+                (event.ctrlKey || event.metaKey) && event.key === 'Enter' && handleSubmit()
+              }
+            ></textarea>
+            <div className="form-control input-contrast gsc-comment-box-textarea-extras">
+              <a
+                className="link-secondary gsc-comment-box-markdown-hint flex gap-2"
+                rel="nofollow noopener noreferrer"
+                target="_blank"
+                href="https://guides.github.com/features/mastering-markdown/"
+                title={t('stylingWithMarkdownIsSupported')}
+              >
+                <MarkdownIcon className="mr-1" />
+              </a>
+            </div>
+          </div>
         )}
       </div>
       <div className="gsc-comment-box-bottom">
-        <a
-          className="link-secondary gsc-comment-box-markdown-hint"
-          rel="nofollow noopener noreferrer"
-          target="_blank"
-          href="https://guides.github.com/features/mastering-markdown/"
-        >
-          <MarkdownIcon className="mr-1" />
-          {t('stylingWithMarkdownIsSupported')}
-        </a>
+        {token && !isReply ? (
+          <button type="button" className="link-secondary text-sm" onClick={onSignOut}>
+            <SignOutIcon className="mr-2" />
+            {t('signOut')}
+          </button>
+        ) : null}
         <div className="gsc-comment-box-buttons">
           {isReply ? (
             <button
@@ -247,24 +255,8 @@ export default function CommentBox({
     </form>
   ) : (
     <div className="color-bg-tertiary gsc-reply-box">
-      {viewer ? (
-        <a
-          rel="nofollow noopener noreferrer"
-          target="_blank"
-          href={viewer.url}
-          className="flex shrink-0 items-center"
-        >
-          <img
-            className="inline-block rounded-full"
-            src={viewer.avatarUrl}
-            width="30"
-            height="30"
-            alt={`@${viewer.login}`}
-          />
-        </a>
-      ) : null}
       <button
-        className="form-control color-text-secondary color-border-primary w-full cursor-text ml-2 rounded border px-2 py-1 text-left"
+        className="form-control color-text-secondary color-border-primary w-full cursor-text rounded border px-2 py-1 text-left focus:border-transparent"
         onClick={handleReplyOpen}
         type="button"
       >
