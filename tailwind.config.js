@@ -23,6 +23,9 @@ module.exports = {
       },
       fontFamily: {
         sans: [
+          'Gill Sans',
+          'Cambria Math',
+          'Cambria',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
