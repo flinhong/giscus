@@ -12,6 +12,7 @@ import { getAppAccessToken } from '../services/github/getAppAccessToken';
 import { getRepoConfig } from '../services/github/getConfig';
 import { availableLanguages } from '../lib/i18n';
 import Router from 'next/router';
+import { Analytics } from '@vercel/analytics/react';
 
 export async function getServerSideProps({ query, res }: GetServerSidePropsContext) {
   const session = (query.session as string) || '';
@@ -156,6 +157,8 @@ export default function WidgetPage({
           <Widget origin={resolvedOrigin} session={session} />
         </ConfigContext.Provider>
       </main>
+
+      <Analytics />
     </>
   );
 }
