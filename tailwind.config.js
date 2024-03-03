@@ -26,6 +26,8 @@ module.exports = {
           'Gill Sans',
           'Cambria Math',
           'Cambria',
+          'Noto Serif SC',
+          'Songti SC',
           '-apple-system',
           'BlinkMacSystemFont',
           '"Segoe UI"',
