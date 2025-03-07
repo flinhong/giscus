@@ -1,4 +1,5 @@
 const vanillaRTL = require('tailwindcss-vanilla-rtl');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss/tailwind-config').TailwindConfig} */
 module.exports = {
@@ -20,6 +21,10 @@ module.exports = {
         dlg: { raw: '(min-device-width: 1024px)' },
         dxl: { raw: '(min-device-width: 1280px)' },
         d2xl: { raw: '(min-device-width: 1536px)' },
+      },
+      fontFamily: {
+        sans: ['Sawarabi Mincho', ...defaultTheme.fontFamily.sans],
+        serif: ['Sawarabi Mincho', ...defaultTheme.fontFamily.serif],
       },
     },
   },

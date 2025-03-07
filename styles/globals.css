@@ -1,3 +1,5 @@
+@import url('https://cdn.frankindev.com/fonts/css?family=Sawarabi+Mincho&display=swap');
+
 body * {
   border-color: var(--color-border-default, var(--color-border-primary));
 }
